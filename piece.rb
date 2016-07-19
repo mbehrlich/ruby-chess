@@ -1,10 +1,11 @@
 class Piece
 
   attr_reader :color
-  attr_accessor :pos
+  attr_accessor :pos, :moves_num
 
-  def initialize(color)
+  def initialize(color, moves_num = 0)
     @color = color
+    @moves_num = moves_num
   end
 
   def load_board(board, pos)
