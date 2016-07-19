@@ -13,11 +13,13 @@ class Piece
   end
 
   def valid_moves
-
+    moves.reject { |move| move_into_check?(move) }
   end
 
-  def move_into_check?(pos)
-
+  def move_into_check?(end_pos)
+    test_board = @board.dup
+    test_board.move(@pos, end_pos)
+    return test_board.in_check?(@color)
   end
 
 end

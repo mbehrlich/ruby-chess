@@ -6,7 +6,7 @@ class Knight < Piece
   include SteppingPiece
 
   def to_s
-    piece_symbol = " \u2658  "
+    piece_symbol = " \u265E  "
     piece_symbol.encode('utf-8')
   end
 

@@ -6,7 +6,7 @@ class Bishop < Piece
   include SlidingPiece
 
   def to_s
-    piece_symbol = " \u2657  "
+    piece_symbol = " \u265D  "
     piece_symbol.encode('utf-8')
   end
 end

@@ -35,8 +35,8 @@ class Pawn < Piece
       enemy_check1 = [iterator[0] - 1, iterator[1] + 1]
       enemy_check2 = [iterator[0] - 1, iterator[1] - 1]
     end
-    move_list << enemy_check1 unless @board[enemy_check1] == NullPiece.instance || @board[enemy_check1].color == @color
-    move_list << enemy_check2 unless @board[enemy_check2] == NullPiece.instance || @board[enemy_check2].color == @color
+    move_list << enemy_check1 unless @board[enemy_check1].nil? || @board[enemy_check1] == NullPiece.instance || @board[enemy_check1].color == @color
+    move_list << enemy_check2 unless @board[enemy_check1].nil? || @board[enemy_check2] == NullPiece.instance || @board[enemy_check2].color == @color
     move_list
   end
 
@@ -44,7 +44,7 @@ class Pawn < Piece
 
 
   def to_s
-    piece_symbol = " \u2659  "
+    piece_symbol = " \u265F  "
     piece_symbol.encode('utf-8')
   end
 

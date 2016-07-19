@@ -12,12 +12,18 @@ class Display
     @cursor_pos = [0, 0]
   end
 
-  def cursor_move
+  def cursor_move(message1, message2)
+    system "clear"
+    puts message1
+    puts message2
     render
     until get_input == @cursor_pos
       system "clear"
+      puts message1
+      puts message2
       render
     end
+    @cursor_pos
   end
 
   def render
@@ -35,6 +41,6 @@ class Display
   end
 end
 
-a = Display.new(Board.new([[ Pawn.new(:white), NullPiece.instance, NullPiece.instance, NullPiece.instance], [Bishop.new(:white), NullPiece.instance, Rook.new(:white), NullPiece.instance], [NullPiece.instance, King.new(:white), NullPiece.instance, NullPiece.instance], [NullPiece.instance, NullPiece.instance, NullPiece.instance, NullPiece.instance]]))
-a.cursor_move
-p a.board.dup.grid
+# a = Display.new(Board.new([[ Pawn.new(:white), NullPiece.instance, NullPiece.instance, NullPiece.instance], [Bishop.new(:white), NullPiece.instance, Rook.new(:black), NullPiece.instance], [NullPiece.instance, King.new(:white), NullPiece.instance, NullPiece.instance], [NullPiece.instance, NullPiece.instance, NullPiece.instance, NullPiece.instance]]))
+# a.cursor_move
+# p a.board[[2,1]].valid_moves
