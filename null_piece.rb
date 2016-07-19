@@ -13,4 +13,8 @@ class NullPiece
   def color
     :yellow
   end
+
+  def moves
+    []
+  end
 end

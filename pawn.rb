@@ -2,9 +2,11 @@ require_relative 'piece'
 require 'byebug'
 class Pawn < Piece
 
-  def initialize(color)
-    @moves = 0
-    super
+  attr_reader :moves_num
+
+  def initialize(color, moves_num = 0)
+    @moves_num = moves_num
+    @color = color
   end
 
   def moves
@@ -12,10 +14,10 @@ class Pawn < Piece
     iterator = @pos
     if @color == :black
       deltas = [[1, 0]]
-      deltas << [2, 0] if @moves == 0
+      deltas << [2, 0] if @moves_num == 0
     else
       deltas = [[-1, 0]]
-      deltas << [-2, 0] if @moves == 0
+      deltas << [-2, 0] if @moves_num == 0
     end
     deltas.each do |mover|
       if @board[[iterator[0] + deltas[0][0], iterator[1] + deltas[0][1]]] == NullPiece.instance

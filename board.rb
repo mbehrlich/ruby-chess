@@ -64,5 +64,49 @@ class Board
     true
   end
 
+  def in_check?(color)
+    possible_moves = []
+    king_pos = nil
+    @grid.each_with_index do |row, row_idx|
+      row.each_with_index do |piece, col_idx|
+        king_pos = [row_idx, col_idx] if piece.class == King && piece.color == color
+        possible_moves += self[[row_idx, col_idx]].moves if piece.color != color
+      end
+    end
+    possible_moves.include?(king_pos)
+  end
+
+  def checkmate?(color)
+    valid_moves = false
+    @grid.each_with_index do |row, row_idx|
+      row.each_with_index do |piece, col_idx|
+        valid_moves = true unless piece.color != color || piece.valid_moves.empty?
+      end
+    end
+    in_check?(color) && !valid_moves
+  end
+
+  def dup
+    new_grid = []
+    @grid.each_with_index do |row, row_idx|
+      new_grid << []
+      row.each_with_index do |piece, col_idx|
+        pos = [row_idx, col_idx]
+        if self[pos] == NullPiece.instance
+          new_grid[row_idx] << NullPiece.instance
+        else
+          piece_class = piece.class
+          color = piece.color
+          if piece_class == Pawn
+            moves_num = piece.moves_num
+            new_grid[row_idx] << piece_class.new(color, moves_num)
+          else
+            new_grid[row_idx] << piece_class.new(color)
+          end
+        end
+      end
+    end
+    Board.new(new_grid)
+  end
 
 end

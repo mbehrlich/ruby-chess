@@ -12,9 +12,12 @@ class Piece
     @pos = pos
   end
 
-  def moves
-    []
+  def valid_moves
+
   end
 
+  def move_into_check?(pos)
+
+  end
 
 end
