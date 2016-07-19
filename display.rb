@@ -35,6 +35,6 @@ class Display
   end
 end
 
-a = Display.new(Board.new([[ NullPiece.instance, Queen.new(:black), Rook.new(:black), NullPiece.instance], [NullPiece.instance, NullPiece.instance, NullPiece.instance, NullPiece.instance], [NullPiece.instance, NullPiece.instance, NullPiece.instance, NullPiece.instance], [NullPiece.instance, NullPiece.instance, NullPiece.instance, NullPiece.instance]]))
+a = Display.new(Board.new([[ NullPiece.instance, NullPiece.instance, NullPiece.instance, NullPiece.instance], [Bishop.new(:black), NullPiece.instance, Rook.new(:white), NullPiece.instance], [NullPiece.instance, Pawn.new(:white), NullPiece.instance, NullPiece.instance], [NullPiece.instance, NullPiece.instance, NullPiece.instance, NullPiece.instance]]))
 a.cursor_move
-p a.board[[0, 1]].moves
+p a.board[[2, 1]].moves
