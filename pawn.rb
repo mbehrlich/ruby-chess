@@ -50,10 +50,10 @@ class Pawn < Piece
     end
     en_passant1 = [iterator[0], iterator[1] + 1]
     en_passant2 = [iterator[0], iterator[1] - 1]
-    move_list << enemy_check1 unless @board[enemy_check1].nil? || @board[enemy_check1] == NullPiece.instance || @board[enemy_check1].color == @color
-    move_list << enemy_check2 unless @board[enemy_check1].nil? || @board[enemy_check2] == NullPiece.instance || @board[enemy_check2].color == @color
-    move_list << enemy_check1 if @board[en_passant1].class == Pawn && @board[en_passant1].check_double_move?
-    move_list << enemy_check2 if @board[en_passant2].class == Pawn && @board[en_passant2].check_double_move?
+    move_list << enemy_check1 unless !@board.in_bounds?(enemy_check1) || @board[enemy_check1] == NullPiece.instance || @board[enemy_check1].color == @color
+    move_list << enemy_check2 unless !@board.in_bounds?(enemy_check2) || @board[enemy_check2] == NullPiece.instance || @board[enemy_check2].color == @color
+    move_list << enemy_check1 if @board.in_bounds?(en_passant1) && @board[en_passant1].class == Pawn && @board[en_passant1].check_double_move?
+    move_list << enemy_check2 if @board.in_bounds?(en_passant2) && @board[en_passant2].class == Pawn && @board[en_passant2].check_double_move?
     move_list
   end
 

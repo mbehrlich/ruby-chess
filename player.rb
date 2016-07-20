@@ -16,6 +16,35 @@ class Player
 
 end
 
+class ComputerPlayer < Player
+  def play_turn
+    move_hash = {}
+    @board.grid.each do |row|
+      row.each do |piece|
+        if piece.color == @color
+          move_hash[piece.pos] = piece.valid_moves unless piece.valid_moves.length == 0
+        end
+      end
+    end
+    random1 = rand(move_hash.keys.length)
+    random_starter = move_hash.keys[random1]
+    random2 = rand(move_hash[random_starter].length)
+    random_end = move_hash[random_starter][random2]
+    system "clear"
+    @display.render
+    [random_starter,random_end]
+  end
+
+  def promotion(pos)
+    @board[pos] = Queen.new(@board[pos].color)
+    @board[pos].load_board(@board, pos)
+  end
+
+
+end
+
+
+
 class HumanPlayer < Player
 
   def play_turn
@@ -40,7 +69,26 @@ class HumanPlayer < Player
       end
     end
     [start_pos, end_pos]
+  end
 
+  def promotion(pos)
+    puts "What would you like to promote your pawn to?"
+    puts "(Press Q for queen, R for Rook, K for Knight, or B for Bishop)"
+    new_piece = gets.chomp.downcase
+    until new_piece == 'q' || new_piece == 'r' || new_piece == 'k' || new_piece == 'b'
+      new_piece = gets.chomp.downcase
+    end
+    case new_piece
+    when 'q'
+      @board[pos] = Queen.new(@board[pos].color)
+    when 'r'
+      @board[pos] = Rook.new(@board[pos].color)
+    when 'k'
+      @board[pos] = Knight.new(@board[pos].color)
+    when 'b'
+      @board[pos] = Bishop.new(@board[pos].color)
+    end
+    @board[pos].load_board(@board, pos)
   end
 
 end

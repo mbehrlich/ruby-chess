@@ -6,6 +6,7 @@ require_relative 'bishop'
 require_relative 'king'
 require_relative 'queen'
 require_relative 'pawn'
+require_relative 'player'
 
 
 
@@ -26,7 +27,7 @@ class Board
     @grid = grid
     @dup = dup
     load_board
-    @last_piece_moved = nil
+    @last_piece_moved = false
   end
 
   def [](pos)
@@ -67,42 +68,27 @@ class Board
     if self[end_pos].class == Pawn && (start[0] - end_pos[0] == 2 || start[0] - end_pos[0] == -2)
       self[end_pos].record_double_move
     end
-    passant_checker = @color == :black ? -1 : 1
+    passant_checker = self[end_pos].color == :black ? -1 : 1
     passanted = [end_pos[0] + passant_checker, end_pos[1]]
-    if self[end_pos].class == Pawn && self[passanted].class == Pawn && self[passanted].check_double_move?
+    if passanted[0] >= 0 && passanted[0] < 8 && self[end_pos].class == Pawn && self[passanted].class == Pawn && self[passanted].check_double_move?
       self[passanted] = NullPiece.instance
     end
     # Promotion Logic
+    promotion_check = false
     if self[end_pos].class == Pawn && (end_pos[0] == 0 || end_pos[0] == 7)
       if @dup
         self[end_pos] = Queen.new(self[end_pos].color)
+        self[end_pos].load_board(self, end_pos)
       else
-        promotion(end_pos)
+        promotion_check = true
+        # promotion(end_pos)
       end
     end
     @last_piece_moved.un_double if @last_piece_moved.class == Pawn
     @last_piece_moved = self[end_pos]
+    promotion_check
   end
 
-  def promotion(pos)
-    puts "What would you like to promote your pawn to?"
-    puts "(Press Q for queen, R for Rook, K for Knight, or B for Bishop)"
-    new_piece = gets.chomp.downcase
-    until new_piece == 'q' || new_piece == 'r' || new_piece == 'k' || new_piece == 'b'
-      new_piece = gets.chomp.downcase
-    end
-    case new_piece
-    when 'q'
-      self[pos] = Queen.new(self[pos].color)
-    when 'r'
-      self[pos] = Rook.new(self[pos].color)
-    when 'k'
-      self[pos] = Knight.new(self[pos].color)
-    when 'b'
-      self[pos] = Bishop.new(self[pos].color)
-    end
-    self[pos].load_board(self, pos)
-  end
 
   def in_bounds?(pos)
     x, y = pos
